@@ -2,6 +2,8 @@
 const Koa = require('koa');
 const koaBody = require('koa-body');
 const cors = require('koa2-cors');
+const https = require('https');
+const http = require('http');
 
 const rootRouter = require('./routes')
 
@@ -19,6 +21,9 @@ app.use(koaBody({
 app.use(rootRouter.routes()).use(rootRouter.allowedMethods())
 
 const port = 8123;
-app.listen(port, ()=>{
+https.createServer(app.callback()).listen(port, ()=>{
     console.log(`koa is listening in ${port}`);
+})
+http.createServer(app.callback()).listen(port - 1, ()=>{
+    console.log(`koa is listening in ${port - 1}`);
 })
